@@ -1,0 +1,376 @@
+/* Button 1*/
+.getstartedheaderbutton1 {
+    cursor: pointer !important;
+    padding: 18px 10px;
+}
+
+.getstartedheaderbutton1:hover {
+    border-radius: 3px;
+    /*background: linear-gradient(to right, #ffffff -70%, #da183b 20%);*/
+    background-color: #da183b !important;
+    color: #ffffff;
+}
+
+.btn-danger2 {
+    color: #da183b;
+    background-color: #ffdbe1;
+}
+
+.btn-danger2:hover {
+    color: #da183b;
+    text-decoration: none;
+}
+
+/* Button 2*/
+.getstartedheaderbutton2 {
+    cursor: pointer !important;
+    padding: 18px 10px;
+}
+
+.getstartedheaderbutton2:hover {
+    border-radius: 3px;
+    background-color: #228dde !important;
+    color: #ffffff;
+}
+
+.btn-twitter {
+    color: #228dde;
+    background-color: #cfe8fb;
+}
+
+.btn-twitter:hover {
+    color: #228dde;
+    text-decoration: none;
+}
+
+/* Button 3*/
+.getstartedheaderbutton3 {
+    cursor: pointer !important;
+    padding: 18px 10px;
+}
+
+.getstartedheaderbutton3:hover {
+    border-radius: 3px;
+    background-color: #509d5c !important;
+    color: #ffffff;
+}
+
+.btn-success2 {
+    color: #019d1a;
+    background-color: #c1f7c9;
+}
+
+.btn-success2:hover {
+    color: #019d1a;
+    text-decoration: none;
+}
+
+/*All Button */
+.colpadding {
+    padding-left: 5px !important;
+    padding-right: 5px !important;
+}
+
+.btn-circle.btn-lg {
+    width: 50px;
+    height: 50px;
+    padding: 11px 14px;
+    font-size: 18px;
+}
+
+.profiletimeline2 {
+    position: relative;
+    margin-left: 60px;
+    margin-right: 10px;
+    margin-top: 0px;
+}
+
+.profiletimeline2 .sl-left2 button {
+    max-width: 85px;
+}
+
+.profiletimeline2 .sl-left2 {
+    float: left;
+    z-index: 1;
+    margin-right: 0px;
+    margin-top: -10px;
+    margin-bottom: 0px;
+    margin-left: -60px;
+}
+
+.profiletimeline2 .sl-item2 {
+    margin-top: 8px;
+    margin-bottom: 15px;
+}
+
+h3, h3 {
+    display: inline;
+}
+p, p{display: inline;}
+.bgcolormyAct{
+    background-color: #c5c3d8; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #c5c3d8,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyTask{
+    background-color: #94c6e4; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #94c6e4,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyIncomingReq{
+    background-color: #b3b274; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #b3b274,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyAppointment{
+    background-color: #66d1c4; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #66d1c4,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyPatients{
+    background-color: #9f9dce; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #9f9dce,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyTopPharmacy{
+    background-color: #96d5f4; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #96d5f4,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyBestSelling{
+    background-color: #7dddd2; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #7dddd2,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyTopLab{
+    background-color: #b8b6db; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #b8b6db,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+.bgcolormyTopServices{
+    background-color: #e3e2cd; /* For browsers that do not support gradients */
+    background-image: linear-gradient(to right, #e3e2cd,#fff);
+    color: #fff;
+    font-size: 24px;
+}
+
+.MydoctorBorder {
+  border-radius: 25px;
+  border: 2px solid #ededed;
+  padding: 20px; 
+  width: 650px;
+  height: 100px;  
+}
+.MyCustomerBorder {
+  border-radius: 25px;
+  border: 2px solid #ededed;
+  padding: 20px; 
+  width: 1150px;
+  height: 100px;  
+}
+
+.MyOrderBorder {
+  border-radius: 25px;
+  border: 2px solid #ededed;
+  padding: 20px; 
+  width: 420px;
+  height: 100px;  
+}
+
+.dashbgcolor {
+    background-color: #5ac840 !important;
+}
+
+.pad_rl_20 {
+    padding-left: 20px;
+    padding-right: 20px
+}
+
+.welcomeword {
+    font-size: 1.7em;
+}
+
+.welcometime {
+    font-size: 15px;
+}
+
+.welcomebox {
+    height: 15vh
+}
+
+.dbox2 {
+   background-color: #e04038 !important;
+}
+
+.dboxicon {
+    -webkit-transition: all .3s linear;
+    -o-transition: all .3s linear;
+    transition: all .3s linear;
+    position: absolute;
+    top: 18px;
+    right: 20px;
+    z-index: 0;
+    font-size: 80px;
+    color: rgb(76 100 75 / 77%);
+}
+
+.dashmsg .slimScrollDiv,.dashmsg .slimScrollDiv .message-scroll {
+    height: 255px !important;
+    overflow: auto;
+}
+
+.dashmsg2 .slimScrollDiv,.dashmsg2 .slimScrollDiv .message-scroll {
+    height: 300px !important;
+    overflow: auto;
+}
+
+.TotCustBoxBGColor {
+    background-color: #89d400 !important;
+}
+
+.addressfeature {
+    font-size: 13px;
+    margin-bottom: 0;
+    text-overflow: ellipsis !important; 
+    overflow:hidden !important;
+    white-space: nowrap !important;
+}
+
+.ribbon-info {
+    background: #7ae486;
+    /*#5cbcf7*/
+}
+
+.ribbon {
+    padding: 0 30px;
+    height: 30px;
+    line-height: 30px;
+    clear: left;
+    position: absolute;
+    top: 12px;
+    left: -2px;
+    color: #ffffff;
+}
+
+.ribbon-bookmark.ribbon-info:before {
+    border-color: #7ae486;
+    border-right-color: transparent;
+}
+
+.AddressClass {
+    text-overflow: ellipsis !important; 
+    overflow:hidden !important;
+    white-space: nowrap !important;
+}
+
+.webkitlala{
+    overflow: hidden;
+    /*height: 41px;*/
+    /*line-height: 17px;*/
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    -o-text-overflow: ellipsis;
+    text-overflow: ellipsis;
+}
+
+.professional {
+  margin-bottom: 10px !important;
+  position: relative;
+}
+
+.profiletimeline3 {
+    position: relative;
+    margin-left: 60px;
+    margin-right: 10px;
+    margin-top: 20px;
+}
+
+.profiletimeline3 .sl-left3 img {
+    max-width: 85px;
+}
+
+.profiletimeline3 .sl-left3 {
+    float: left;
+    margin-left: -65px;
+    z-index: 1;
+    margin-right: 15px;
+    margin-top: 2px;
+    margin-bottom: 40px;
+}
+
+.block .shadowx {
+    -moz-box-shadow: 3px 3px 5px 2px #ccc;
+    box-shadow: 3px 3px 5px 2px #ccc;
+    margin-bottom: 10px;
+    background: white; 
+}
+
+.shadowx .content hr {
+    margin-top: 10px !important;
+    margin-bottom: 10px !important;
+}
+
+.shadowx .content h4 {
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 0px;
+}
+
+.BCardShadow:hover
+{
+    box-shadow: 0px 0px 6px 0 rgb(31 135 192), 0 1px 10px 0 rgb(31 135 192);
+}
+
+.Iclass{
+    font-size:1.3rem;
+    cursor:pointer;
+    font-weight: 500;
+}
+
+ul.pagination {
+    display: inline-block;
+    padding: 0;
+    margin: 0;
+}
+
+ul.pagination li {
+    cursor: pointer;
+    display: inline;
+    color: #3a4651 !important;
+    font-weight: 600;
+    padding: 4px 8px;
+    border: 1px solid #CCC;
+}
+
+.pagination li:first-child{
+    border-top-left-radius: 4px;
+    border-bottom-left-radius: 4px;
+}
+
+.pagination li:last-child{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+ul.pagination li:hover{
+    background-color: #3a4651;
+    color: white !important;
+}
+
+.pagination .active{
+    background-color: #3a4651;
+    color: white !important;
+}
+
+.table thead th, .table th {
+    background-color: #C2ECFF !important;
+}

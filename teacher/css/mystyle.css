@@ -1,0 +1,19 @@
+.user-profile .profile-img{
+    width: 100px !important;
+    margin: 0 auto !important;
+    border-radius: 0px !important;
+}
+
+.scroll-sidebar{
+    padding-top: 0px !important;
+}
+
+.lbl-text {
+	font-weight: 400;
+}
+
+.sidebar-nav>ul>li>a.active {
+   /* font-weight: 400;
+    background: white !important;*/
+    color: #000000;
+}
