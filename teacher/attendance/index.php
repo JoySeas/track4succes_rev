@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -26,6 +27,7 @@
         }
     </style>
 </head>
+
 <body>
     <div class="row">
         <div class="col-12">
@@ -63,131 +65,161 @@
 
     <script>
         $(document).ready(function() {
-    function loadAttendanceDates(callback) {
-        $.ajax({
-            type: 'POST',
-            url: 'attendance/get_attendance_dates.php',
-            success: function(response) {
-                const res = JSON.parse(response);
-                if (res.status === "success") {
-                    const events = res.dates.map(date => ({
-                        start: date,
-                        display: 'background',
-                        title: 'Attendance Checked',
-                        backgroundColor: '#88C273',
-                        classNames: ['attendance-highlight']
-                    }));
-                    callback(events);
-                } else {
-                    console.error('Failed to load attendance dates:', res.message);
-                }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({ title: 'Error!', text: 'An error occurred: ' + error, icon: 'error' });
+            function loadAttendanceDates(callback) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'attendance/get_attendance_dates.php',
+                    success: function(response) {
+                        const res = JSON.parse(response);
+                        if (res.status === "success") {
+                            const events = res.dates.map(date => ({
+                                start: date,
+                                display: 'background',
+                                title: 'Attendance Checked',
+                                backgroundColor: '#88C273',
+                                classNames: ['attendance-highlight']
+                            }));
+                            callback(events);
+                        } else {
+                            console.error('Failed to load attendance dates:', res.message);
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred: ' + error,
+                            icon: 'error'
+                        });
+                    }
+                });
             }
-        });
-    }
 
-    var calendarEl = document.getElementById('calendar');
+            var calendarEl = document.getElementById('calendar');
 
-    loadAttendanceDates(function(attendanceEvents) {
-        var calendar = new FullCalendar.Calendar(calendarEl, {
-            initialView: 'dayGridMonth',
-            dateClick: function(info) {
-                $('#selectedDate').val(info.dateStr);
-                fetchAttendance(info.dateStr);
-            },
-            events: attendanceEvents,
-            eventContent: function(arg) {
-                if (arg.event.title) {
-                    return { html: `<div class="event-title">${arg.event.title}</div>` };
-                }
-            }
-        });
-        
-        calendar.render();
-    });
+            loadAttendanceDates(function(attendanceEvents) {
+                var calendar = new FullCalendar.Calendar(calendarEl, {
+                    initialView: 'dayGridMonth',
+                    dateClick: function(info) {
+                        $('#selectedDate').val(info.dateStr);
+                        fetchAttendance(info.dateStr);
+                    },
+                    events: attendanceEvents,
+                    eventContent: function(arg) {
+                        if (arg.event.title) {
+                            return {
+                                html: `<div class="event-title">${arg.event.title}</div>`
+                            };
+                        }
+                    }
+                });
 
-    function fetchAttendance(selectedDate) {
-    $.ajax({
-        type: 'POST',
-        url: 'attendance/get_students.php',
-        data: { date: selectedDate },
-        success: function(response) {
-            const res = JSON.parse(response);
-            if (res.status === "success") {
-                $('#studentList').empty(); // Clear existing list
-                let studentIds = new Set(); // Prevent duplicates
+                calendar.render();
+            });
 
-                let studentListHtml = `<table class="table">
+            function fetchAttendance(selectedDate) {
+                $.ajax({
+                    type: 'POST',
+                    url: 'attendance/get_students.php',
+                    data: {
+                        date: selectedDate
+                    },
+                    success: function(response) {
+                        const res = JSON.parse(response);
+                        if (res.status === "success") {
+                            $('#studentList').empty(); // Clear existing list
+                            let studentIds = new Set(); // Prevent duplicates
+
+                            let studentListHtml = `<table class="table">
                     <thead>
                         <tr>
                             <th>Student</th>
                             <th>AM</th>
                             <th>PM</th>
+                            <th>Excuse</th>
                         </tr>
                     </thead>
                     <tbody>`;
 
-                res.students.forEach(student => {
-                    if (!studentIds.has(student.id)) { // Prevent duplicates
-                        studentIds.add(student.id);
+                            res.students.forEach(student => {
+                                if (!studentIds.has(student.id)) { // Prevent duplicates
+                                    studentIds.add(student.id);
 
-                        studentListHtml += `
+                                    studentListHtml += `
                             <tr>
                                 <td>${student.fullname}</td>
-                                <td><input type="checkbox" name="am[${student.id}]" ${student.status_am ? 'checked' : ''}></td>
-                                <td><input type="checkbox" name="pm[${student.id}]" ${student.status_pm ? 'checked' : ''}></td>
+                                <td><input type="checkbox" name="am[${student.id}]" ${student.status_am == 'Present'  ? 'checked' : ''}></td>
+                                <td><input type="checkbox" name="pm[${student.id}]" ${student.status_pm == 'Present' ? 'checked' : ''}></td>
+                                <td><input type="checkbox" name="excuse[${student.id}]" ${student.status_excuse == 'Excuse' ? 'checked' : ''}></td>
                             </tr>`;
+                                }
+                            });
+
+
+
+                            studentListHtml += `</tbody></table>`;
+                            $('#studentList').html(studentListHtml);
+                            $('#mdladdattendance').modal('show');
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: res.message,
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred: ' + error,
+                            icon: 'error'
+                        });
                     }
                 });
-
-                
-
-                studentListHtml += `</tbody></table>`;
-                $('#studentList').html(studentListHtml);
-                $('#mdladdattendance').modal('show');
-            } else {
-                Swal.fire({ title: 'Error!', text: res.message, icon: 'error' });
             }
-        },
-        error: function(xhr, status, error) {
-            Swal.fire({ title: 'Error!', text: 'An error occurred: ' + error, icon: 'error' });
-        }
-    });
-}
 
 
-    $('#attendanceForm').off('submit').on('submit', function(e) {
-        e.preventDefault();
-        
-        var formData = $(this).serialize();
+            $('#attendanceForm').off('submit').on('submit', function(e) {
+                e.preventDefault();
 
-        $.ajax({
-            type: 'POST',
-            url: 'attendance/save_attendance.php',
-            data: formData,
-            success: function(response) {
-                const res = JSON.parse(response);
-                if (res.status === "success") {
-                    Swal.fire({ title: 'Success!', text: res.message, icon: 'success' })
-                    .then(() => {
-                        $('#mdladdattendance').modal('hide');
-                        location.reload();
-                    });
-                } else {
-                    Swal.fire({ title: 'Error!', text: res.message, icon: 'error' });
-                }
-            },
-            error: function(xhr, status, error) {
-                Swal.fire({ title: 'Error!', text: 'An error occurred: ' + error, icon: 'error' });
-            }
+                var formData = $(this).serialize();
+
+                $.ajax({
+                    type: 'POST',
+                    url: 'attendance/save_attendance.php',
+                    data: formData,
+                    success: function(response) {
+                        const res = JSON.parse(response);
+                        if (res.status === "success") {
+                            Swal.fire({
+                                    title: 'Success!',
+                                    text: res.message,
+                                    icon: 'success'
+                                })
+                                .then(() => {
+                                    $('#mdladdattendance').modal('hide');
+                                    location.reload();
+                                });
+                        } else {
+                            Swal.fire({
+                                title: 'Error!',
+                                text: res.message,
+                                icon: 'error'
+                            });
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        Swal.fire({
+                            title: 'Error!',
+                            text: 'An error occurred: ' + error,
+                            icon: 'error'
+                        });
+                    }
+                });
+            });
         });
-    });
-});
-
     </script>
 
 
 </body>
+
 </html>

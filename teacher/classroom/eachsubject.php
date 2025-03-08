@@ -88,7 +88,7 @@ foreach ($students as &$student) {
         'overall_remarks' => null
     ];
 }
-    
+
 
 ?>
 
@@ -207,9 +207,9 @@ foreach ($students as &$student) {
                 style="width: 24px; height: 24px; cursor: pointer; color: #FFF"> Upload Grades
         </button>
         <button type="button" class="btn" style="background: #5D9EFE; color: #FFF;">
-    <img class="download-icon" src="assets/images/download.png"
-        style="width: 24px; height: 24px; cursor: pointer; color: #FFF"> Download Records
-</button>
+            <img class="download-icon" src="assets/images/download.png"
+                style="width: 24px; height: 24px; cursor: pointer; color: #FFF"> Download Records
+        </button>
 
     </div>
 
@@ -232,64 +232,76 @@ foreach ($students as &$student) {
                         </tr>
                     </thead>
                     <tbody>
-    <?php foreach ($students as $index => $student): ?>
-        <tr>
-            <td style="text-align: center;"><?php echo $index + 1; ?></td>
-            <td style="text-align: center;"><?php echo htmlspecialchars($student['student_no']); ?></td>
-            <td style="text-align: center;"><?php echo htmlspecialchars($student['full_name']); ?></td>
-            <td style="text-align: center; color: <?php echo ($student['grades']['first_quarter'] >= 75) ? 'green' : 'red'; ?>;">
-    <?php echo htmlspecialchars($student['grades']['first_quarter']); ?>
-</td>
-<td style="text-align: center; color: <?php echo ($student['grades']['second_quarter'] >= 75) ? 'green' : 'red'; ?>;">
-    <?php echo htmlspecialchars($student['grades']['second_quarter']); ?>
-</td>
-<td style="text-align: center; color: <?php echo ($student['grades']['third_quarter'] >= 75) ? 'green' : 'red'; ?>;">
-    <?php echo htmlspecialchars($student['grades']['third_quarter']); ?>
-</td>
-<td style="text-align: center; color: <?php echo ($student['grades']['fourth_quarter'] >= 75) ? 'green' : 'red'; ?>;">
-    <?php echo htmlspecialchars($student['grades']['fourth_quarter']); ?>
-</td>
+                        <?php foreach ($students as $index => $student): ?>
+                            <tr>
+                                <td style="text-align: center;"><?php echo $index + 1; ?></td>
+                                <td style="text-align: center;"><?php echo htmlspecialchars($student['student_no']); ?></td>
+                                <td style="text-align: center;"><?php echo htmlspecialchars($student['full_name']); ?></td>
+                                <td style="text-align: center; color: <?php echo ($student['grades']['first_quarter'] >= 75) ? 'green' : 'red'; ?>;">
+                                    <?php echo htmlspecialchars($student['grades']['first_quarter']); ?>
+                                </td>
+                                <td style="text-align: center; color: <?php echo ($student['grades']['second_quarter'] >= 75) ? 'green' : 'red'; ?>;">
+                                    <?php echo htmlspecialchars($student['grades']['second_quarter']); ?>
+                                </td>
+                                <td style="text-align: center; color: <?php echo ($student['grades']['third_quarter'] >= 75) ? 'green' : 'red'; ?>;">
+                                    <?php echo htmlspecialchars($student['grades']['third_quarter']); ?>
+                                </td>
+                                <td style="text-align: center; color: <?php echo ($student['grades']['fourth_quarter'] >= 75) ? 'green' : 'red'; ?>;">
+                                    <?php echo htmlspecialchars($student['grades']['fourth_quarter']); ?>
+                                </td>
 
 
-            <!-- Check for completeness of grades -->
-            <?php 
-                $gradesComplete = isset($student['grades']['first_quarter'], 
-                                         $student['grades']['second_quarter'], 
-                                         $student['grades']['third_quarter'], 
-                                         $student['grades']['fourth_quarter']);
-            ?>
+                                <!-- Check for completeness of grades -->
+                                <?php
+                                $gradesComplete = isset(
+                                    $student['grades']['first_quarter'],
+                                    $student['grades']['second_quarter'],
+                                    $student['grades']['third_quarter'],
+                                    $student['grades']['fourth_quarter']
+                                );
+                                ?>
 
-            <td style="text-align: center;">
-                <?php if ($gradesComplete): ?>
-                    <?php echo htmlspecialchars($student['grades']['overall_grade']); ?>
-                <?php else: ?>
-                    <span style="color: gray;">Not yet computed</span>
-                <?php endif; ?>
-            </td>
-            <td style="text-align: center;">
-                <?php if ($gradesComplete): ?>
-                    <?php if ($student['grades']['overall_remarks'] === 'PASSED'): ?>
-                        <span style="color: green; font-weight: bold;">PASSED</span>
-                    <?php else: ?>
-                        <span style="color: red; font-weight: bold;">FAILED</span>
-                    <?php endif; ?>
-                <?php else: ?>
-                    <span style="color: gray;">Not yet Computed</span>
-                <?php endif; ?>
-            </td>
-            <td style="text-align: center;">
-                <img src="assets/images/edit.png" alt="Update"
-                    style="width: 24px; height: 24px; cursor: pointer; color: #FFF" 
-                    onclick="openUpdateModal('<?php echo htmlspecialchars($student['student_no']); ?>', 
+                                <td style="text-align: center;">
+                                    <?php if ($gradesComplete): ?>
+                                        <?php echo htmlspecialchars($student['grades']['overall_grade']); ?>
+                                    <?php else: ?>
+                                        <span style="color: gray;">Not yet computed</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td style="text-align: center;">
+                                    <?php if ($gradesComplete): ?>
+                                        <?php if ($student['grades']['overall_remarks'] === 'PASSED'): ?>
+                                            <span style="color: green; font-weight: bold;">PASSED</span>
+                                        <?php else: ?>
+                                            <span style="color: red; font-weight: bold;">FAILED</span>
+                                        <?php endif; ?>
+                                    <?php else: ?>
+                                        <span style="color: gray;">Not yet Computed</span>
+                                    <?php endif; ?>
+                                </td>
+                                <td style="text-align: center;">
+                                    <!-- <a href="classroom/print_student.php?student_no=<?php echo $student['student_no']; ?>" target="_blank">
+                                        <svg fill="#707070" width="34px" height="34px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" stroke="#707070">
+                                            <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+                                            <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+                                            <g id="SVGRepo_iconCarrier">
+                                                <title>print</title>
+                                                <path d="M5.656 6.938l-0.344 2.688h11.781l-0.344-2.688c0-0.813-0.656-1.438-1.469-1.438h-8.188c-0.813 0-1.438 0.625-1.438 1.438zM1.438 11.094h19.531c0.813 0 1.438 0.625 1.438 1.438v8.563c0 0.813-0.625 1.438-1.438 1.438h-2.656v3.969h-14.219v-3.969h-2.656c-0.813 0-1.438-0.625-1.438-1.438v-8.563c0-0.813 0.625-1.438 1.438-1.438zM16.875 25.063v-9.281h-11.344v9.281h11.344zM15.188 18.469h-8.125c-0.188 0-0.344-0.188-0.344-0.375v-0.438c0-0.188 0.156-0.344 0.344-0.344h8.125c0.188 0 0.375 0.156 0.375 0.344v0.438c0 0.188-0.188 0.375-0.375 0.375zM15.188 21.063h-8.125c-0.188 0-0.344-0.188-0.344-0.375v-0.438c0-0.188 0.156-0.344 0.344-0.344h8.125c0.188 0 0.375 0.156 0.375 0.344v0.438c0 0.188-0.188 0.375-0.375 0.375zM15.188 23.656h-8.125c-0.188 0-0.344-0.188-0.344-0.375v-0.438c0-0.188 0.156-0.344 0.344-0.344h8.125c0.188 0 0.375 0.156 0.375 0.344v0.438c0 0.188-0.188 0.375-0.375 0.375z"></path>
+                                            </g>
+                                        </svg>
+                                    </a> -->
+                                    <img src="assets/images/edit.png" alt="Update"
+                                        style="width: 24px; height: 24px; cursor: pointer; color: #FFF"
+                                        onclick="openUpdateModal('<?php echo htmlspecialchars($student['student_no']); ?>', 
                                              '<?php echo htmlspecialchars($student['grades']['first_quarter']); ?>', 
                                              '<?php echo htmlspecialchars($student['grades']['second_quarter']); ?>', 
                                              '<?php echo htmlspecialchars($student['grades']['third_quarter']); ?>', 
                                              '<?php echo htmlspecialchars($student['grades']['fourth_quarter']); ?>', 
                                              '<?php echo htmlspecialchars($student['grades']['grade_id']); ?>')" />
-            </td>
-        </tr>
-    <?php endforeach; ?>
-</tbody>
+                                </td>
+                            </tr>
+                        <?php endforeach; ?>
+                    </tbody>
 
                 </table>
             </div>
@@ -301,7 +313,7 @@ foreach ($students as &$student) {
 <div class="modal fade" id="mdlupdateGrade" tabindex="-1" role="dialog" aria-labelledby="mdlupdateGradeLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
-            <div class="modal-header"> 
+            <div class="modal-header">
                 <h5 class="modal-title text-center w-100" id="mdlupdateGradeLabel">Update Grades</h5>
             </div>
             <div class="modal-body">
@@ -474,56 +486,56 @@ foreach ($students as &$student) {
         document.getElementById('second_quarter').value = secondQuarter;
         document.getElementById('third_quarter').value = thirdQuarter;
         document.getElementById('fourth_quarter').value = fourthQuarter;
-        document.getElementById('grade_id').value = gradeId;  // Set grade_id here
+        document.getElementById('grade_id').value = gradeId; // Set grade_id here
 
         // Show the modal
         $('#mdlupdateGrade').modal('show');
     }
     // Handle form submission
-document.getElementById('updateStudentGrade').addEventListener('submit', function(event) {
-    event.preventDefault(); // Prevent default form submission
+    document.getElementById('updateStudentGrade').addEventListener('submit', function(event) {
+        event.preventDefault(); // Prevent default form submission
 
-    const formData = new FormData(this);
+        const formData = new FormData(this);
 
-    fetch(this.action, {
-        method: 'POST',
-        body: formData,
-    })
-    .then(response => response.json())
-    .then(data => {
-        if (data.success) {
-            // Show success message
-            Swal.fire({
-                title: 'Success!',
-                text: data.message,
-                icon: 'success',
-                confirmButtonText: 'OK'
-            }).then(() => {
-                // Optionally, reload the page or update the table
-                location.reload();
+        fetch(this.action, {
+                method: 'POST',
+                body: formData,
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success message
+                    Swal.fire({
+                        title: 'Success!',
+                        text: data.message,
+                        icon: 'success',
+                        confirmButtonText: 'OK'
+                    }).then(() => {
+                        // Optionally, reload the page or update the table
+                        location.reload();
+                    });
+                } else {
+                    // Show error message
+                    Swal.fire({
+                        title: 'Error!',
+                        text: data.message,
+                        icon: 'error',
+                        confirmButtonText: 'OK'
+                    });
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'An unexpected error occurred.',
+                    icon: 'error',
+                    confirmButtonText: 'OK'
+                });
             });
-        } else {
-            // Show error message
-            Swal.fire({
-                title: 'Error!',
-                text: data.message,
-                icon: 'error',
-                confirmButtonText: 'OK'
-            });
-        }
-    })
-    .catch(error => {
-        console.error('Error:', error);
-        Swal.fire({
-            title: 'Error!',
-            text: 'An unexpected error occurred.',
-            icon: 'error',
-            confirmButtonText: 'OK'
-        });
     });
-});
-    $(document).ready(function () {
-        $('#uploadGradesForm').on('submit', function (e) {
+    $(document).ready(function() {
+        $('#uploadGradesForm').on('submit', function(e) {
             e.preventDefault();
             var formData = new FormData(this);
             var fileInput = $('#uploadGradesForm input[type="file"]')[0];
@@ -539,7 +551,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function (response) {
+                success: function(response) {
                     // Assuming response is a JSON object
                     if (response.success) {
                         Swal.fire('Success!', response.message, 'success');
@@ -548,7 +560,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
                         Swal.fire('Error!', response.message, 'error');
                     }
                 },
-                error: function (jqXHR, textStatus, errorThrown) {
+                error: function(jqXHR, textStatus, errorThrown) {
                     Swal.fire('Error!', 'Failed to upload grades. ' + errorThrown, 'error');
                 }
             });
@@ -556,7 +568,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
 
 
         // Set up modal to populate subject_id when shown
-        $('#mdladdGrade').on('show.bs.modal', function (event) {
+        $('#mdladdGrade').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget); // Button that triggered the modal
             var subjectId = button.data('subject_id'); // Extract info from data-* attributes
             var modal = $(this);
@@ -564,9 +576,9 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
         });
     });
 
-    $(document).ready(function () {
+    $(document).ready(function() {
         // When the edit icon is clicked, show the modal
-        $('.edit-icon').on('click', function () {
+        $('.edit-icon').on('click', function() {
             $('#mdlUpdateSubject').modal('show');
 
             // Populate the modal form with the subject data
@@ -579,7 +591,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
 
             // Populate the checkboxes for the subject days
             let days = '<?php echo htmlspecialchars($subject["subject_days"]); ?>'.split(',');
-            $('.form-check-input').each(function () {
+            $('.form-check-input').each(function() {
                 let dayValue = $(this).val();
                 if (days.includes(dayValue)) {
                     $(this).prop('checked', true);
@@ -588,7 +600,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
         });
 
         // Handle form submission
-        $('#updateSubjectForm').on('submit', function (e) {
+        $('#updateSubjectForm').on('submit', function(e) {
             e.preventDefault();
 
             let formData = new FormData(this);
@@ -599,7 +611,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
                 data: formData,
                 contentType: false,
                 processData: false,
-                success: function (response) {
+                success: function(response) {
                     // Show a success message using SweetAlert
                     Swal.fire({
                         icon: 'success',
@@ -610,11 +622,11 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
                     });
 
                     // Optionally, reload the page or update the displayed data without reloading
-                    setTimeout(function () {
+                    setTimeout(function() {
                         location.reload(); // Reload the page to show the updated details
                     }, 1500);
                 },
-                error: function (xhr, status, error) {
+                error: function(xhr, status, error) {
                     // Show an error message using SweetAlert
                     Swal.fire({
                         icon: 'error',
@@ -627,7 +639,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
 
 
         // Handle subject deletion when 'Delete' is clicked
-        $('#delete-subject').on('click', function () {
+        $('#delete-subject').on('click', function() {
             Swal.fire({
                 title: 'Are you sure?',
                 text: "You won't be able to revert this!",
@@ -642,8 +654,10 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
                     $.ajax({
                         url: 'classroom/delete_subject.php', // The server-side script to handle deletion
                         type: 'POST',
-                        data: { subject_id: '<?php echo $subject_id; ?>' },
-                        success: function (response) {
+                        data: {
+                            subject_id: '<?php echo $subject_id; ?>'
+                        },
+                        success: function(response) {
                             Swal.fire(
                                 'Deleted!',
                                 'The subject has been deleted.',
@@ -657,12 +671,14 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
             });
         });
     });
- 
+
     const subjectName = "<?php echo htmlspecialchars($subject['subject_name']); ?>";
 
     document.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.download-icon').addEventListener('click', () => {
-            const { jsPDF } = window.jspdf;
+            const {
+                jsPDF
+            } = window.jspdf;
             const doc = new jsPDF();
 
             // Add title and subject name to the PDF
@@ -674,7 +690,7 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
             // Extract table data but exclude the last column (Option)
             const table = document.querySelector('table');
             const rows = table.querySelectorAll('tr');
-            
+
             // Remove last column (Option) from each row
             rows.forEach(row => {
                 const cells = row.querySelectorAll('th, td');
@@ -699,7 +715,4 @@ document.getElementById('updateStudentGrade').addEventListener('submit', functio
             doc.save(`${subjectName}_Grade_Records.pdf`);
         });
     });
-
-
-
 </script>

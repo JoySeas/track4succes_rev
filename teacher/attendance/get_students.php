@@ -2,8 +2,8 @@
 session_start();
 include '../connect.php';
 
-$teacher_id = isset($_SESSION['user_id']) ? $_SESSION['user_id'] : null;
-$selected_date = isset($_POST['date']) ? $_POST['date'] : null;
+$teacher_id = $_SESSION['user_id'] ?? null;
+$selected_date = $_POST['date'] ?? null;
 
 if (!$teacher_id || !$selected_date) {
     echo json_encode([
@@ -13,38 +13,31 @@ if (!$teacher_id || !$selected_date) {
     exit;
 }
 
-// Fetch distinct students assigned to the teacher, avoiding duplicates
+// Fetch students and their attendance for the given date
 $sql = "
     SELECT DISTINCT s.student_id, s.firstname, s.lastname,
-        (SELECT a.status_am FROM attendance a 
-         WHERE a.student_id = s.student_id AND a.attendance_date = ? 
-         ORDER BY a.attendance_id DESC LIMIT 1) AS status_am,
-        (SELECT a.status_pm FROM attendance a 
-         WHERE a.student_id = s.student_id AND a.attendance_date = ? 
-         ORDER BY a.attendance_id DESC LIMIT 1) AS status_pm
+        a.status_am, a.status_pm, a.status_excuse
     FROM students_enrolled s
     JOIN teachers_classroom ca ON s.classroom_id = ca.classroom_id
+    LEFT JOIN attendance a ON s.student_id = a.student_id AND a.attendance_date = ?
     WHERE ca.teacher_id = ?
 ";
 
 $stmt = $connection->prepare($sql);
-$stmt->bind_param('sss', $selected_date, $selected_date, $teacher_id);
+$stmt->bind_param('ss', $selected_date, $teacher_id);
 $stmt->execute();
 $result = $stmt->get_result();
 
 $students = [];
-$student_ids = []; // Prevents duplicate records
 
 while ($row = $result->fetch_assoc()) {
-    if (!in_array($row['student_id'], $student_ids)) {
-        $students[] = [
-            'id' => $row['student_id'],
-            'fullname' => $row['firstname'] . ' ' . $row['lastname'],
-            'status_am' => $row['status_am'] ?? null,
-            'status_pm' => $row['status_pm'] ?? null
-        ];
-        $student_ids[] = $row['student_id'];
-    }
+    $students[] = [
+        'id' => $row['student_id'],
+        'fullname' => $row['firstname'] . ' ' . $row['lastname'],
+        'status_am' => $row['status_am'] ?? null,
+        'status_pm' => $row['status_pm'] ?? null,
+        'status_excuse' => $row['status_excuse'] ?? null // Added this line
+    ];
 }
 
 echo json_encode([

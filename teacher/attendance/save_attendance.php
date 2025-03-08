@@ -3,9 +3,11 @@ session_start();
 include("../connect.php");
 
 if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['selectedDate'])) {
+
     $attendance_date = $_POST['selectedDate'];
     $am_attendance = $_POST['am'] ?? []; // AM checked values
     $pm_attendance = $_POST['pm'] ?? []; // PM checked values
+    $excuse_attendance = $_POST['excuse'] ?? []; // Excuse checked values
     $teacher_id = $_SESSION['user_id'] ?? null;
 
     if (!$teacher_id) {
@@ -19,7 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['selectedDate'])) {
     }
 
     // Fetch only the students whose attendance was actually submitted
-    $submitted_students = array_unique(array_merge(array_keys($am_attendance), array_keys($pm_attendance)));
+    $submitted_students = array_unique(array_merge(array_keys($am_attendance), array_keys($pm_attendance), array_keys($excuse_attendance)));
 
     if (empty($submitted_students)) {
         echo json_encode(["status" => "error", "message" => "No attendance data was submitted."]);
@@ -30,7 +32,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['selectedDate'])) {
     $valid_students = [];
     $placeholders = implode(',', array_fill(0, count($submitted_students), '?'));
     $types = str_repeat('s', count($submitted_students));
-    
+
     $stmt = $connection->prepare("
         SELECT s.student_id FROM students_enrolled s
         JOIN teachers_classroom tc ON s.classroom_id = tc.classroom_id
@@ -53,22 +55,32 @@ if ($_SERVER["REQUEST_METHOD"] == "POST" && isset($_POST['selectedDate'])) {
 
     // Prepare SQL statement
     $stmt = $connection->prepare("
-        INSERT INTO attendance (student_id, teacher_id, attendance_date, status_am, status_pm) 
-        VALUES (?, ?, ?, ?, ?)
-        ON DUPLICATE KEY UPDATE status_am = VALUES(status_am), status_pm = VALUES(status_pm)
+        INSERT INTO attendance (student_id, teacher_id, attendance_date, status_am, status_pm, status_excuse) 
+        VALUES (?, ?, ?, ?, ?, ?)
+        ON DUPLICATE KEY UPDATE 
+            status_am = VALUES(status_am), 
+            status_pm = VALUES(status_pm), 
+            status_excuse = VALUES(status_excuse)
     ");
 
     foreach ($valid_students as $student_id) {
-        // Check if this student was marked as "Present" in AM/PM
+        // Ensure default values
         $status_am = isset($am_attendance[$student_id]) ? "Present" : "Absent";
         $status_pm = isset($pm_attendance[$student_id]) ? "Present" : "Absent";
-
-        // Debugging log (for error tracking)
-        error_log("Saving attendance -> Student ID: $student_id, Date: $attendance_date, AM: $status_am, PM: $status_pm");
-
-        $stmt->bind_param("issss", $student_id, $teacher_id, $attendance_date, $status_am, $status_pm);
+        $status_excuse = isset($excuse_attendance[$student_id]) ? "Excuse" : "None"; // Default to None
+    
+        // If a student is excused, override AM/PM
+        if ($status_excuse === "Excuse") {
+            $status_am = "Excused";
+            $status_pm = "Excused";
+        }
+    
+        error_log("Saving attendance -> Student ID: $student_id, Date: $attendance_date, AM: $status_am, PM: $status_pm, Excuse: $status_excuse");
+    
+        $stmt->bind_param("isssss", $student_id, $teacher_id, $attendance_date, $status_am, $status_pm, $status_excuse);
         $stmt->execute();
     }
+    
 
     $stmt->close();
     $connection->close();
